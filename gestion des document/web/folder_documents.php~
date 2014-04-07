@@ -1,0 +1,125 @@
+<?php 
+include_once '../lib/lib_mysql.php';
+?>
+<?php
+connexion();
+$keyword='';
+$page = $_SERVER["PHP_SELF"];
+if (isset($_GET['folder_id'])) {
+	$folder_id = $_GET['folder_id'];
+	$show_folder = show_folder($folder_id);
+}
+
+if (isset($_GET['sub_search_folder']) or isset($_GET['txt_search_folder'])) {
+	$keyword = $_GET['txt_search_folder'];
+	$folder_id = $_GET['folder_id'];
+	$show_folder = show_folder($folder_id);
+}
+?>
+
+<link href="../style/default.css" rel="stylesheet" type="text/css" />
+<table width="100%" height="578" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="578" align="center" valign="top"><table width="100%" height="50" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="center">
+		<table width="98%" height="50" border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="50%" align="left" class="big_1"><img src="../image/design/img_ppm_logo_mini.png" width="500" height="60" /></td>
+            <td width="50%" align="right">&nbsp;</td>
+          </tr>
+        </table>
+		</td>
+        </tr>
+    </table>
+      <table width="100%" height="6" border="0" cellspacing="0" cellpadding="0" background="../image/design/fond_inter.png">
+        <tr>
+          <td></td>
+        </tr>
+      </table>
+      <table width="98%" height="30" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td align="left" class="txt_4g">Le Dossier ouvert : </td>
+        </tr>
+      </table>
+      <table width="98%" height="468" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="82%" align="left" valign="top"><table width="100%" height="80" border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td align="left" valign="top"><table width="100%" height="6" border="0" cellspacing="0" cellpadding="0" background="../image/design/fond_inter.png">
+                          <tr>
+                            <td></td>
+                          </tr>
+                        </table>
+                        <table width="100%" height="30" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                              <td width="30%" align="left" class="big_3"><?php echo $show_folder['folder_name']; ?></td>
+                              <td width="50%" align="right" class="title_1">
+                              <table width="99%" height="28" border="0" cellpadding="0" cellspacing="0">
+                                <form id="form1" name="form1" method="get" action="">
+                                  <tr>
+                                    <td align="right" class="txt_2"> 
+                                    <input name="folder_id" type="hidden" id="folder_id" value="<?php echo $folder_id; ?>"/>
+                                      Chercher dans le dossier :
+                                      <label id="search1">
+                                        <input name="txt_search_folder" type="text" id="txt_search_folder" value="<?php if (!empty($keyword)) echo $keyword; ?>" onclick="this.value=''"/>
+                                      </label>
+                                        <label id="search2">
+                                        <input name="sub_search_folder" type="submit" class="sssabir" id="sub_search_folder" value="Chercher"/>
+                                        </label>
+                                     <span class="txt_1g"><a href="<?php echo $page ?>?folder_id=<?php echo $folder_id; ?>">Afficher tous les  Documents</a></span> </td>
+                                  </tr>
+                                </form>
+                              </table></td>
+                            </tr>
+                          </table>
+                            <table width="100%" height="6" border="0" cellspacing="0" cellpadding="0" background="../image/design/fond_inter.png">
+                              <tr>
+                                <td></td>
+                              </tr>
+                            </table>
+                          <table width="98%" height="30" border="0" cellpadding="0" cellspacing="0" class="txt_444">
+                            <tr>
+                              <td width="4%" align="center">N&deg;</td>
+                              <td width="44%" align="left">Titre (Description) </td>
+                              <td width="16%" align="left">Date de creation </td>
+                              <td width="24%" align="left">&nbsp;</td>
+                              <td width="10%" align="center">Options</td>
+                            </tr>
+                          </table>
+                          <table width="100%" height="6" border="0" cellspacing="0" cellpadding="0" background="../image/design/fond_inter.png">
+                              <tr>
+                                <td></td>
+                              </tr>
+                            </table>
+                          <div id="zone_list_2"><?php echo list_documents_of_folder($keyword,$folder_id,$edit=0,$del=0); ?></div></td>
+                      </tr>
+                    </table></td>
+              </tr>
+            </table>
+              <table width="100%" height="30" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="left" class="title_1">&nbsp;</td>
+                </tr>
+            </table></td>
+        </tr>
+      </table>
+      <table width="100%" height="6" border="0" cellspacing="0" cellpadding="0" background="../image/design/fond_inter.png">
+        <tr>
+          <td></td>
+        </tr>
+      </table>
+      <table width="100%" height="50" border="0" cellpadding="0" cellspacing="0" class="bg_menubar">
+        <tr>
+          <td height="43" align="center" valign="middle"><table width="98%" height="40" border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td align="center" class="token_1">Faculte des Lettres et Sciences Humaines </td>
+              </tr>
+          </table></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+<?php deconnexion(); ?>
